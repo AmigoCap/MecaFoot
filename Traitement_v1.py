@@ -149,19 +149,7 @@ class MainWindow(tkinter.Tk):
         
         self.__Fig_Panel.grid(row=0, column=2, columnspan=1, rowspan=5,sticky='NSEW')
         
-     # Range Slider elements 
-     
-        self.__W_RS_Canvas = 180*self.__Scale
-        self.__H_RS_Canvas = 15*self.__Scale
-        
-        self.__RS_Canvas = tkinter.Canvas(self.__RS_Panel,width=self.__W_RS_Canvas,height= self.__H_RS_Canvas)
-        self.__RS_Canvas.pack(expand="true")
-        
-        self.__RS_Panel.grid(row=5,column=0,columnspan=3,rowspan=1,sticky='NSEW') 
-        
-        self.DrawRangeSlider()
-        
-        self.DrawTerrain()
+
 #-----------------------------------------------------------------------------------------------------------------------------------
      
     def Load_Data(self):
@@ -232,61 +220,6 @@ class MainWindow(tkinter.Tk):
         self.__Canvas.create_line(self.__Margin,self.__Margin+self.__H_Canvas*0.5,self.__W_Canvas,self.__Margin+self.__H_Canvas*0.5)
         self.__Canvas.create_rectangle(self.__Margin+self.__W_Canvas*0.5-20,self.__Margin+20*self.__Scale-5,self.__Margin+self.__W_Canvas*0.5+20,self.__Margin+20*self.__Scale+5, fill = "#000000")
         self.__Canvas.create_rectangle(self.__Margin+self.__W_Canvas*0.5-20,self.__Margin+118*self.__Scale-5,self.__Margin+self.__W_Canvas*0.5+20,self.__Margin+118*self.__Scale+5, fill = "#000000")
-    
-#-----------------------------------------------------------------------------------------------------------------------------------    
-    def DrawRangeSlider(self):
-        
-        self.__W_RS_Canvas = 180*self.__Scale
-        self.__H_RS_Canvas = 15*self.__Scale
-        
-        self.__RS_Canvas.delete('all')
-        
-        self.__RS_Canvas.create_rectangle(self.__Margin,self.__Margin*3,self.__W_RS_Canvas-self.__Margin*3,self.__H_RS_Canvas-self.__Margin*3, fill = "#38CB3F")
-     
-        self.__A_Pos = 10
-        self.__B_Pos = 90
-        
-        self.__XA = self.__A_Pos*(self.__W_RS_Canvas-2*self.__Margin)/100+self.__Margin
-        self.__XB = self.__B_Pos*(self.__W_RS_Canvas-2*self.__Margin)/100+self.__Margin
-        
-        self.__W_Cursor = 1*self.__Scale
-        self.__H_Cursor = 10*self.__Scale
-                                        
-        self.__A_Cursor = self.__RS_Canvas.create_rectangle(self.__XA-self.__W_Cursor/2,self.__H_RS_Canvas/2-self.__H_Cursor/2,self.__XA+self.__W_Cursor/2,self.__H_RS_Canvas/2+self.__H_Cursor/2,fill = "#000000")
-        self.__B_Cursor = self.__RS_Canvas.create_rectangle(self.__XB-self.__W_Cursor/2,self.__H_RS_Canvas/2-self.__H_Cursor/2,self.__XB+self.__W_Cursor/2,self.__H_RS_Canvas/2+self.__H_Cursor/2,fill = "#000000")
-        
-        self.__H_Bar = 2*self.__Scale                                      
-        self.__Bar = self.__RS_Canvas.create_rectangle(self.__XA-self.__W_Cursor/2,self.__H_RS_Canvas/2-self.__H_Bar/2,self.__XB+self.__W_Cursor/2,self.__H_RS_Canvas/2+self.__H_Bar/2,fill = "#000000")
-
-        self.__RS_Canvas.bind('<B1-Motion>', self.Cursor_Moved)
-        self.__RS_Canvas.bind('<Button-1>', self.Cursor_Clicked)
-        
-    def Cursor_Moved(self, event):
-
-        if (abs(event.x-self.__XA) < self.__W_Cursor*3) and (event.x>self.__Margin) and (event.x<self.__W_RS_Canvas-self.__Margin) :
-            self.__RS_Canvas.move(self.__A_Cursor,event.x-self.__XA,0)
-            self.__XA=event.x
-            self.__RS_Canvas.delete(self.__Bar)
-            self.__Bar = self.__RS_Canvas.create_rectangle(self.__XA-self.__W_Cursor/2,self.__H_RS_Canvas/2-self.__H_Bar/2,self.__XB+self.__W_Cursor/2,self.__H_RS_Canvas/2+self.__H_Bar/2,fill = "#000000")
-                                                              
-        elif (abs(event.x-self.__XB) < self.__W_Cursor*3) and (event.x>self.__Margin) and (event.x<self.__W_RS_Canvas-self.__Margin) :
-            self.__RS_Canvas.move(self.__B_Cursor,event.x-self.__XB,0)
-            self.__XB=event.x        
-            self.__RS_Canvas.delete(self.__Bar)
-            self.__Bar = self.__RS_Canvas.create_rectangle(self.__XA-self.__W_Cursor/2,self.__H_RS_Canvas/2-self.__H_Bar/2,self.__XB+self.__W_Cursor/2,self.__H_RS_Canvas/2+self.__H_Bar/2,fill = "#000000")
-                                                
-        elif (event.x>self.__XA) and (event.x < self.__XB) and (abs(event.y-self.__H_RS_Canvas/2)<self.__H_Bar):
-            if (self.__XA>self.__Margin) and (self.__XB<self.__W_RS_Canvas-self.__Margin):
-                dif = event.x-self.__aux_x
-                self.__RS_Canvas.move(self.__B_Cursor,dif,0)
-                self.__RS_Canvas.move(self.__A_Cursor,dif,0)
-                self.__RS_Canvas.move(self.__Bar,dif,0)
-                self.__XA+=dif
-                self.__XB+=dif
-                self.__aux_x = event.x
-   
-    def Cursor_Clicked(self, event):
-        self.__aux_x = event.x
 #-----------------------------------------------------------------------------------------------------------------------------------
        
     def ShowFigure (self):

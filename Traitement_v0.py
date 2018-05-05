@@ -135,20 +135,20 @@ class MainWindow(tkinter.Tk):
             self.__Y.append(float(dataline[5]))
             self.__X.append(float(dataline[4]))
             
-        
         self.__DataFile.close()
         
         X_mid = 43.482162
         Y_mid = -1.536879
         self.__PI = 3.14159
         self.__R_Earth = 6378000.0
-        
+        suma = 0
         for i in range(len(self.__X)):
             self.__X[i] = abs(X_mid-self.__X[i])*self.__PI/180*self.__R_Earth
             
+            
         for i in range(len(self.__Y)):
             self.__Y[i] = abs(Y_mid-self.__Y[i])*self.__PI/180*self.__R_Earth
-             
+            suma += self.__Y[i]
         X_max = max(self.__X)
         Y_max = max(self.__Y)
         
@@ -158,7 +158,9 @@ class MainWindow(tkinter.Tk):
         for i in range(len(self.__Y)):
             self.__Y[i] = self.__Y[i]/Y_max*self.__H_Canvas
         
-            
+        print(suma)
+        
+        
     def DrawTerrain(self):
         
         self.__Canvas.create_rectangle(self.__Margin,self.__Margin,self.__W_Canvas,self.__H_Canvas, fill = "#38CB3F")
@@ -248,7 +250,8 @@ class MainWindow(tkinter.Tk):
                 self.__MaxStat=self.__Stat[int(self.__Local_X[i]/self.__X_step)][int(self.__Local_Y[i]/self.__Y_step)]
 
     # HeatMap drawing
-    
+        print(self.__Div)
+        print(self.__X_step)
         for i in range(self.__Div):
             for j in range(self.__Div): 
                 color = '#%02x%02x%02x' % (int((1-(self.__Stat[i][j]/self.__MaxStat))*255),int((1-(self.__Stat[i][j]/self.__MaxStat))*255),int((1-(self.__Stat[i][j]/self.__MaxStat))*255))
